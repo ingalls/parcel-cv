@@ -1,0 +1,16 @@
+{
+  "name": "qpublic-scraper",
+  "version": "1.0.0",
+  "description": "Scrape qpublic APIs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Nicholas Ingalls <nicholas.ingalls@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "proj4": "^2.3.10",
+    "reproject": "^0.1.1",
+    "tile-cover": "^2.4.1"
+  }
+}
