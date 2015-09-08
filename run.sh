@@ -20,10 +20,12 @@ if [ ! -f /tmp/bounds ]; then
         TOPRIGHT=$(echo $line   | jq -r -c '.geometry | .coordinates | .[] | .[]' | sed '2!d')
         BOTTOMLEFT=$(echo $line | jq -r -c '.geometry | .coordinates | .[] | .[]' | sed '4!d')
         echo "[$TOPRIGHT, $BOTTOMLEFT]" >> /tmp/bounds
-    done <<< "$($(dirname $0)/util/cover.js "$(getBounds)" | jq -r -c '.features | .[]')"
+    done <<< "$( $(dirname $0)/util/cover.js "$(grep "\"13\"" util/county.geojson | grep "Pierce" | sed 's/,$//' | jq '.geometry')" | jq -r -c '.features | .[]')"
 fi
 
 echo "Beginning Download"
     cat /tmp/bounds | parallel --gnu -j4 "$(dirname $0)/util/getImage.sh \"{}\" \"$HALFBASE\" \"{#}\""
 exit
+
+gdal_merge.py -init 255 -o out.tif /tmp/parcels/*.tif
 
