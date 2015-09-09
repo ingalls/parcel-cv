@@ -4,9 +4,6 @@ import numpy as np
 from osgeo import gdal
 from osgeo import osr
 from osgeo import ogr
-from functools import partial
-import pyproj
-from shapely.ops import transform
 import cv2
 import json
 
