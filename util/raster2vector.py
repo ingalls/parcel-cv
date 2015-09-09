@@ -18,9 +18,6 @@ def main():
     if hSRS.GetAuthorityCode(None) != "3857": raise Exception('Input must be EPSG:3857')
 
     UpperLeft = getCorner( hDataset, 0.0, 0.0 );
-    LowerLeft = getCorner( hDataset, 0.0, hDataset.RasterYSize);
-    UpperRight = getCorner( hDataset, hDataset.RasterXSize, 0.0 );
-    LowerRight = getCorner( hDataset, hDataset.RasterXSize, hDataset.RasterYSize );
     
     adfGeoTransform = hDataset.GetGeoTransform(can_return_null = True)
     PixelSize = (adfGeoTransform[1], adfGeoTransform[5])
