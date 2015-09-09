@@ -28,7 +28,11 @@ QUERY=$(echo \
 )
 
 curl -s $QUERY > /tmp/$3.png
-gdal_translate -of GTiff -a_ullr $Q $W $E $R -a_srs "EPSG:3857" /tmp/$3.png /tmp/parcels/$(md5 -r /tmp/$3.png | grep -po ".* " | sed 's/ //').tif &>/dev/null
+if [[ -z $(which md5sum) ]]; then
+    gdal_translate -of GTiff -a_ullr $Q $W $E $R -a_srs 'EPSG:3857' /tmp/$3.png /tmp/parcels/$(md5 -r /tmp/$3.png | grep -Eo '.* ' | sed 's/ //g').tif
+else
+    gdal_translate -of GTiff -a_ullr $Q $W $E $R -a_srs 'EPSG:3857' /tmp/$3.png /tmp/parcels/$(md5sum /tmp/$3.png | grep -Eo '.* ' | sed 's/ //g').tif
+fi
 
 rm /tmp/$3.*
 echo "$3/$4"
