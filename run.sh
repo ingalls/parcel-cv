@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 
-FULLBASE="http://qpublic7.qpublic.net/cgi-bin/mapserv56"
-HALFBASE="http://qpublic9.qpublic.net/cgi-bin/mapserv60"
-MAP="/qpub1/maps/ga/pierce/parcel4.map"
+URL="http://qpublic9.qpublic.net/cgi-bin/mapserv60"
 
 # getLatLng
 # - Args: $1=Latitude $2=Longitude
@@ -23,9 +21,8 @@ if [ ! -f /tmp/bounds ]; then
     done <<< "$( $(dirname $0)/util/cover.js "$(grep "\"13\"" util/county.geojson | grep "Pierce" | sed 's/,$//' | jq '.geometry')" | jq -r -c '.features | .[]')"
 fi
 
-echo "Beginning Download"
-    cat /tmp/bounds | parallel --gnu -j4 "$(dirname $0)/util/getImage.sh \"{}\" \"$HALFBASE\" \"{#}\""
-exit
+echo "Beginning Download ($(wc -l /tmp/bounds | grep -Eo "[0-9]+") tiles)"
+cat /tmp/bounds | parallel --gnu -j4 "$(dirname $0)/util/getImage.sh \"{}\" \"$URL\" \"{#}\" \"$(wc -l /tmp/bounds | grep -Eo "[0-9]+")\""
 
 gdal_merge.py -init 255 -o out.tif /tmp/parcels/*.tif
 

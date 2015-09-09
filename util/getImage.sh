@@ -27,8 +27,8 @@ QUERY=$(echo \
     | sed 's/ //g'
 )
 
-curl $QUERY $ARG > /tmp/$3.png
-gdal_translate -of GTiff -a_ullr $Q $W $E $R -a_srs "EPSG:3857" /tmp/$3.png /tmp/parcels/$(md5 -r /tmp/$3.png | grep -po ".* " | sed 's/ //').tif
+curl -s $QUERY > /tmp/$3.png
+gdal_translate -of GTiff -a_ullr $Q $W $E $R -a_srs "EPSG:3857" /tmp/$3.png /tmp/parcels/$(md5 -r /tmp/$3.png | grep -po ".* " | sed 's/ //').tif &>/dev/null
 
 rm /tmp/$3.*
-echo " - Query: $QUERY"
+echo "$3/$4"
