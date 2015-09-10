@@ -10,7 +10,7 @@ import json
 
 def main(): 
 
-    hDataset = gdal.Open('../out.tif', gdal.GA_ReadOnly)
+    hDataset = gdal.Open('../trans.tif', gdal.GA_ReadOnly)
     projection = hDataset.GetProjectionRef()
 
     #Ensure projection is EPSG:3857
@@ -23,7 +23,7 @@ def main():
     adfGeoTransform = hDataset.GetGeoTransform(can_return_null = True)
     PixelSize = (adfGeoTransform[1], adfGeoTransform[5])
    
-    img = imread('../out.tif')
+    img = imread('../trans.tif')
     img = cv2.Canny(img, 0, 100)
     _, cnts, heirarchy = cv2.findContours(img, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
