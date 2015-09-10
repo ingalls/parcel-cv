@@ -4,6 +4,7 @@ import numpy as np
 from osgeo import gdal
 from osgeo import osr
 from osgeo import ogr
+from tifffile import imread #Needed for bigtiff files
 import cv2
 import json
 
@@ -21,10 +22,10 @@ def main():
     
     adfGeoTransform = hDataset.GetGeoTransform(can_return_null = True)
     PixelSize = (adfGeoTransform[1], adfGeoTransform[5])
-    
-    orig = cv2.imread('../out.tif', 0)
-    img = cv2.Canny(orig, 0, 100)
-    (cnts, _) = cv2.findContours(img, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+   
+    img = imread('../out.tif')
+    img = cv2.Canny(img, 0, 100)
+    _, cnts, heirarchy = cv2.findContours(img, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
     print('{ "type": "FeatureCollection", "features": [')
     for poly in cnts:
@@ -58,11 +59,6 @@ def main():
         print(json.dumps(geojson))
 
     print("]}")
-    cv2.imwrite('../out2.tif', img)
-
-#/************************************************************************/
-#/*                        GDALInfoReportCorner()                        */
-#/************************************************************************/
 
 def getCorner( hDataset, x, y ):
     adfGeoTransform = hDataset.GetGeoTransform(can_return_null = True)
