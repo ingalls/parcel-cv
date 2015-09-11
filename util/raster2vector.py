@@ -5,6 +5,7 @@ from osgeo import gdal
 from osgeo import osr
 from osgeo import ogr
 from tifffile import imread #Needed for bigtiff files
+from tifffile import imsave
 import cv2
 import json
 
@@ -25,12 +26,18 @@ def main():
    
     img = imread('../trans.tif')
     img = cv2.Canny(img, 0, 100)
-    _, cnts, heirarchy = cv2.findContours(img, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
+    imsave('../canny.tif', img)
+    
+    #Legacy findContour method - currently using GDAL Polygonize
+    #_, cnts, heirarchy = cv2.findContours(img, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+    #toGeoJSON(cnts)
+
+def toGeoJSON(cnts):
     print('{ "type": "FeatureCollection", "features": [')
     for poly in cnts:
         coords = [];    
-
+   
         for pt in poly.tolist():
             pt = pt[0]
 
