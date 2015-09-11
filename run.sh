@@ -25,6 +25,10 @@ echo "Beginning Download ($(wc -l /tmp/bounds | grep -Eo "[0-9]+") tiles)"
 cat /tmp/bounds | parallel --gnu -j4 "$(dirname $0)/util/getImage.sh \"{}\" \"$URL\" \"{#}\" \"$(wc -l /tmp/bounds | grep -Eo "[0-9]+")\""
 
 gdal_merge.py -init 255 -o /tmp/parcel_out.tif /tmp/parcels/*.tif
-convert /tmp/parcel_out.tif -transparent white TIFF64:trans.tif
+convert /tmp/parcel_out.tif \
+    \( -alpha off -fill black -opaque white -alpha on \) \
+    \( -transparent black \) \
+    TIFF64:trans.tif
+
 ./util/gdalcopyproj.py /tmp/parcel_out.tif trans.tif
 
