@@ -2,13 +2,6 @@
 
 URL="http://qpublic9.qpublic.net/cgi-bin/mapserv60"
 
-# getLatLng
-# - Args: $1=Latitude $2=Longitude
-# - Returns: String GeoJSON containing geometry
-function getLatLng() {
-    curl "http://qpublic9.qpublic.net/qp_mobile/php/getParcel_mm.php?longitude=$2&latitude=$1" $ARG
-}
-
 OLDIFS=$IFS
 mkdir -p /tmp/parcels/
 rm /tmp/parcels/* &>/dev/null
@@ -22,13 +15,37 @@ if [ ! -f /tmp/bounds ]; then
 fi
 
 echo "Beginning Download ($(wc -l /tmp/bounds | grep -Eo "[0-9]+") tiles)"
-cat /tmp/bounds | parallel --gnu -j4 "$(dirname $0)/util/getImage.sh \"{}\" \"$URL\" \"{#}\" \"$(wc -l /tmp/bounds | grep -Eo "[0-9]+")\""
+cat /tmp/bounds | parallel --gnu "$(dirname $0)/util/getImage.sh \"{}\" \"$URL\" \"{#}\" \"$(wc -l /tmp/bounds | grep -Eo "[0-9]+")\""
 
 gdal_merge.py -init 255 -o /tmp/parcel_out.tif /tmp/parcels/*.tif
 convert /tmp/parcel_out.tif \
-    \( -alpha off -fill black -opaque white -alpha on \) \
-    \( -transparent black \) \
-    TIFF64:trans.tif
+    \( -alpha remove \) \
+    \( -fill black -opaque white \) \
+    TIFF64:/tmp/parcel_clean.tif
+./util/gdalcopyproj.py /tmp/parcel_out.tif /tmp/parcel_clean.tif
+gdal_polygonize.py -nomask /tmp/parcel_clean.tif -f "ESRI Shapefile" /tmp/parcel_tile.shp
+ogr2ogr /tmp/parcel_out.geojson /tmp/parcel_tile.shp -t_srs EPSG:4326 -f "GeoJSON"
 
-./util/gdalcopyproj.py /tmp/parcel_out.tif trans.tif
+echo '{ "type": "FeatureCollection", "features": [' > /tmp/parcel_pts.geojson.tmp
+grep "DN\": 0" /tmp/parcel_out.geojson >> /tmp/parcel_pts.geojson.tmp
+sed -i '$s/,$//' /tmp/parcel_pts.geojson.tmp
+echo ']}' >> /tmp/parcel_pts.geojson.tmp
 
+./node_modules/turf-cli/turf-point-on-surface.js /tmp/parcel_pts.geojson.tmp > /tmp/parcel_pts.geojson
+
+function getLatLng() {
+    curl "http://qpublic9.qpublic.net/qp_mobile/php/getParcel_mm.php?longitude=$2&latitude=$1" $ARG
+}
+
+echo "LAT,LNG,STR,CITY,DISTRICT,REGION" > out.csv
+for COORD in $(jq -r -c '.features | .[] | .geometry | .coordinates' /tmp/parcel_pts.geojson); do
+    ADDR=$(getLatLng $(echo $COORD | jq '.[1]') $(echo $COORD | jq '.[0]'))
+
+    echo  
+
+    STR=$(echo $ADDR | jq -r -c '.properties | .["Physical Address"]') 
+    REG=$(echo $ADDR | jq -r -c '.properties | .md | .state ')
+    DIS=$(echo $ADDR | jq -r -c '.properties | .md | .county')
+    CIT=$(echo $ADDR | jq -r -c '.properties | .["Taxing District"]')
+    echo "$(echo $COORD | jq '.[0]'),$(echo $COORD | jq '.[1]'),$STR,$CIT,$DIS,$REG"
+done

@@ -9,6 +9,7 @@
   "author": "Nicholas Ingalls <nicholas.ingalls@gmail.com>",
   "license": "ISC",
   "dependencies": {
+    "turf-cli": "ingalls/turf-cli",
     "proj4": "^2.3.10",
     "reproject": "^0.1.1",
     "tile-cover": "^2.4.1"
