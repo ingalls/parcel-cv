@@ -34,18 +34,22 @@ echo ']}' >> /tmp/parcel_pts.geojson.tmp
 ./node_modules/turf-cli/turf-point-on-surface.js /tmp/parcel_pts.geojson.tmp > /tmp/parcel_pts.geojson
 
 function getLatLng() {
-    curl "http://qpublic9.qpublic.net/qp_mobile/php/getParcel_mm.php?longitude=$2&latitude=$1" $ARG
+    curl --silent "http://qpublic9.qpublic.net/qp_mobile/php/getParcel_mm.php?longitude=$2&latitude=$1"
 }
 
-echo "LAT,LNG,STR,CITY,DISTRICT,REGION" > out.csv
+echo "LAT,LNG,STR,DISTRICT,REGION" > out.csv
+PROG_TOT=$(wc -l /tmp/parcel_pts.geojson | grep -Po '\d+')
+PROG_CUR=0
 for COORD in $(jq -r -c '.features | .[] | .geometry | .coordinates' /tmp/parcel_pts.geojson); do
     ADDR=$(getLatLng $(echo $COORD | jq '.[1]') $(echo $COORD | jq '.[0]'))
-
-    echo  
 
     STR=$(echo $ADDR | jq -r -c '.properties | .["Physical Address"]') 
     REG=$(echo $ADDR | jq -r -c '.properties | .md | .state ')
     DIS=$(echo $ADDR | jq -r -c '.properties | .md | .county')
-    CIT=$(echo $ADDR | jq -r -c '.properties | .["Taxing District"]')
-    echo "$(echo $COORD | jq '.[0]'),$(echo $COORD | jq '.[1]'),$STR,$CIT,$DIS,$REG"
+   
+    if [[ ! -z $COORD ]] || [[ ! -z $STR ]]; then
+        echo "$(echo $COORD | jq '.[0]'),$(echo $COORD | jq '.[1]'),\"$STR\",\"$DIS\",\"$REG\"" >> out.csv
+    fi
+    PROG_CUR=$((PROG_CUR+1))
+    echo "$PROG_CUR/$PROG_TOT"
 done
