@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+$COUNTY="Seminole"
+
 URL="http://qpublic9.qpublic.net/cgi-bin/mapserv60"
 
 OLDIFS=$IFS
@@ -11,7 +13,7 @@ if [ ! -f /tmp/bounds ]; then
         TOPRIGHT=$(echo $line   | jq -r -c '.geometry | .coordinates | .[] | .[]' | sed '2!d')
         BOTTOMLEFT=$(echo $line | jq -r -c '.geometry | .coordinates | .[] | .[]' | sed '4!d')
         echo "[$TOPRIGHT, $BOTTOMLEFT]" >> /tmp/bounds
-    done <<< "$( $(dirname $0)/util/cover.js "$(grep "\"13\"" util/county.geojson | grep "Pierce" | sed 's/,$//' | jq '.geometry')" | jq -r -c '.features | .[]')"
+    done <<< "$( $(dirname $0)/util/cover.js "$(grep "\"13\"" util/county.geojson | grep "$COUNTY" | sed 's/,$//' | jq '.geometry')" | jq -r -c '.features | .[]')"
 fi
 
 echo "Beginning Download ($(wc -l /tmp/bounds | grep -Eo "[0-9]+") tiles)"
