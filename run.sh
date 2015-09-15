@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 
-COUNTY="Seminole"
+# Done:
+#COUNTY="Seminole" #Seminole, ga
+
+COUNTY="Pierce" #Pierce, ga
 
 URL="http://qpublic9.qpublic.net/cgi-bin/mapserv60"
 
