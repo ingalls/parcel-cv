@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-$COUNTY="Seminole"
+COUNTY="Seminole"
 
 URL="http://qpublic9.qpublic.net/cgi-bin/mapserv60"
 
@@ -26,7 +26,9 @@ convert /tmp/parcel_out.tif \
     TIFF64:/tmp/parcel_clean.tif
 ./util/gdalcopyproj.py /tmp/parcel_out.tif /tmp/parcel_clean.tif
 gdal_polygonize.py -nomask /tmp/parcel_clean.tif -f "ESRI Shapefile" /tmp/parcel_tile.shp
-ogr2ogr /tmp/parcel_out.geojson /tmp/parcel_tile.shp -t_srs EPSG:4326 -f "GeoJSON"
+
+# Polygonize will be as 54004 even though it is actually 3857
+ogr2ogr /tmp/parcel_out.geojson /tmp/parcel_tile.shp -s_srs EPSG:3857 -t_srs EPSG:4326 -f "GeoJSON"
 
 echo '{ "type": "FeatureCollection", "features": [' > /tmp/parcel_pts.geojson.tmp
 grep "DN\": 0" /tmp/parcel_out.geojson >> /tmp/parcel_pts.geojson.tmp
