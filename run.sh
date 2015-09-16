@@ -1,11 +1,20 @@
 #!/usr/bin/env bash
 
-# Done:
-#COUNTY="Seminole" #Seminole, ga
-#COUNTY="Pierce" #Pierce, ga
+# Avaliable Counties in Georgia
+# Seminole      Clinch
+# Thomas        Ware
+# Brooks
+# Lowndes
+# Echols
+
+# Not avaliable
+# Decatur
+# Grady
+# 
 
 if [ -z $1 ]; then
-    COUNTY="Thomas" #Thomas, ga
+    echo "./run <County>"
+    exit 1
 else
     COUNTY=$1
 fi
@@ -17,7 +26,6 @@ OLDIFS=$IFS
 echo "ok - Setting up build environment"
 mkdir -p /tmp/${COUNTY}_parcels/
 rm /tmp/${COUNTY}_parcels/* &>/dev/null
-
 
 if [ ! -f /tmp/${COUNTY}_bounds ]; then
     echo "ok - tiling county polygon"
@@ -61,23 +69,8 @@ echo ']}' >> /tmp/${COUNTY}_parcel_pts.geojson.tmp
 echo "ok - poly => pt"
 ./node_modules/turf-cli/turf-point-on-surface.js /tmp/${COUNTY}_parcel_pts.geojson.tmp > /tmp/${COUNTY}_parcel_pts.geojson
 
-function getLatLng() {
-    curl --silent "http://qpublic9.qpublic.net/qp_mobile/php/getParcel_mm.php?longitude=$2&latitude=$1"
-}
-
-echo "LAT,LNG,STR,DISTRICT,REGION" > out.csv
+echo "LAT,LNG,STR,DISTRICT,REGION" > ${COUNTY}_out.csv
 PROG_TOT=$(wc -l /tmp/${COUNTY}_parcel_pts.geojson | grep -Po '\d+')
-PROG_CUR=0
-for COORD in $(jq -r -c '.features | .[] | .geometry | .coordinates' /tmp/${COUNTY}_parcel_pts.geojson); do
-    ADDR=$(getLatLng $(echo $COORD | jq '.[1]') $(echo $COORD | jq '.[0]'))
 
-    STR=$(echo $ADDR | jq -r -c '.properties | .["Physical Address"]') 
-    REG=$(echo $ADDR | jq -r -c '.properties | .md | .state ')
-    DIS=$(echo $ADDR | jq -r -c '.properties | .md | .county')
-   
-    if [[ ! -z $COORD ]] || [[ ! -z $STR ]]; then
-        echo "$(echo $COORD | jq '.[0]'),$(echo $COORD | jq '.[1]'),\"$STR\",\"$DIS\",\"$REG\"" >> ${COUNTY}_out.csv
-    fi
-    PROG_CUR=$((PROG_CUR+1))
-    echo "$PROG_CUR/$PROG_TOT"
-done
+jq -r -c '.features | .[] | .geometry | .coordinates' /tmp/${COUNTY}_parcel_pts.geojson > /tmp/${COUNTY}_coords
+cat /tmp/${COUNTY}_coords | parallel --gnu "$(dirname $0)/util/getAddress.sh \"{}\" \"{#}\" \"$PROG_TOT\" \"$COUNTY\""
