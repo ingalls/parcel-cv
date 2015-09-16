@@ -1,16 +1,16 @@
 #!/usr/bin/env bash
 
-# Avaliable Counties in Georgia
-# Seminole ✓      Clinch
-# Thomas   ✓      Ware
-# Brooks   ✓      Pierce ✓
-# Lowndes
-# Echols
-
-# Not avaliable
+# == Avaliable Counties in Georgia =====================
+# Seminole ✓      Clinch        Glynn           Cook   
+# Thomas   ✓      Ware          Brantley        Colquitt
+# Brooks   ✓      Pierce ✓      Atkinson        Mitchell
+# Lowndes  -      Charlton      Lanier          Miller 
+# Echols          Camden        Berrien         Early  
+# == Not Avaliable =====================================
 # Decatur
 # Grady
-# 
+# Baker
+# ======================================================
 
 if [ -z $1 ]; then
     echo "./run <County>"
