@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
 # == Avaliable Counties in Georgia =====================
-# Seminole ✓      Clinch        Glynn           Cook   
-# Thomas   ✓      Ware          Brantley        Colquitt
+# Seminole ✓      Clinch -      Glynn           Cook   
+# Thomas   ✓      Ware   -      Brantley        Colquitt
 # Brooks   ✓      Pierce ✓      Atkinson        Mitchell
 # Lowndes  -      Charlton      Lanier          Miller 
-# Echols          Camden        Berrien         Early  
+# Echols   -      Camden        Berrien         Early  
 # == Not Avaliable =====================================
 # Decatur
 # Grady
@@ -40,9 +40,11 @@ fi
 
 echo "ok - Beginning Download ($(wc -l /tmp/${COUNTY}_bounds | grep -Eo "[0-9]+") tiles)"
 cat /tmp/${COUNTY}_bounds | parallel --gnu "$(dirname $0)/util/getImage.sh \"{}\" \"$URL\" \"{#}\" \"$COUNTY\" \"$(wc -l /tmp/${COUNTY}_bounds | grep -Eo "[0-9]+")\""
+rm /tmp/${COUNTY}_bounds
 
 echo "ok - merging parcels"
 gdal_merge.py -init 255 -o /tmp/${COUNTY}_parcel_out.tif /tmp/${COUNTY}_parcels/*.tif
+rm -rf /tmp/${COUNTY}_parcels/
 
 echo "ok - standarize image"
 convert /tmp/${COUNTY}_parcel_out.tif \
@@ -52,13 +54,16 @@ convert /tmp/${COUNTY}_parcel_out.tif \
 
 echo "ok - set projection"
 ./util/gdalcopyproj.py /tmp/${COUNTY}_parcel_out.tif /tmp/${COUNTY}_parcel_clean.tif
+rm /tmp/${COUNTY}_parcel_out.tif
 
 echo "ok - gdal_polygonize"
 gdal_polygonize.py -nomask /tmp/${COUNTY}_parcel_clean.tif -f "ESRI Shapefile" /tmp/${COUNTY}_parcel_tile.shp
+rm /tmp/${COUNTY}_parcel_clean.tif
 
 echo "ok - reproject to 4326"
 # Polygonize will be as 54004 even though it is actually 3857
 ogr2ogr /tmp/${COUNTY}_parcel_out.geojson /tmp/${COUNTY}_parcel_tile.shp -s_srs EPSG:3857 -t_srs EPSG:4326 -f "GeoJSON"
+rm /tmp/${COUNTY}_parcel_tile.*
 
 echo "ok - filter by black"
 echo '{ "type": "FeatureCollection", "features": [' > /tmp/${COUNTY}_parcel_pts.geojson.tmp
@@ -68,9 +73,13 @@ echo ']}' >> /tmp/${COUNTY}_parcel_pts.geojson.tmp
 
 echo "ok - poly => pt"
 ./node_modules/turf-cli/turf-point-on-surface.js /tmp/${COUNTY}_parcel_pts.geojson.tmp > /tmp/${COUNTY}_parcel_pts.geojson
+rm /tmp/${COUNTY}_parcel_pts.geojson.tmp
 
-echo "LNG,LAT,STR,DISTRICT,REGION" > ${COUNTY}_out.csv
 PROG_TOT=$(wc -l /tmp/${COUNTY}_parcel_pts.geojson | grep -Po '\d+')
 
 jq -r -c '.features | .[] | .geometry | .coordinates' /tmp/${COUNTY}_parcel_pts.geojson > /tmp/${COUNTY}_coords
+rm /tmp/${COUNTY}_parcel_pts.geojson
+
+echo "LNG,LAT,STR,DISTRICT,REGION" > ${COUNTY}_out.csv
 cat /tmp/${COUNTY}_coords | parallel --gnu "$(dirname $0)/util/getAddress.sh \"{}\" \"{#}\" \"$PROG_TOT\" \"$COUNTY\""
+rm /tmp/${COUNTY}_coords
