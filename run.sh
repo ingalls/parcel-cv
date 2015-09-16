@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
 # Avaliable Counties in Georgia
-# Seminole      Clinch
-# Thomas        Ware
-# Brooks
+# Seminole ✓      Clinch
+# Thomas   ✓      Ware
+# Brooks   ✓      Pierce ✓
 # Lowndes
 # Echols
 
@@ -69,7 +69,7 @@ echo ']}' >> /tmp/${COUNTY}_parcel_pts.geojson.tmp
 echo "ok - poly => pt"
 ./node_modules/turf-cli/turf-point-on-surface.js /tmp/${COUNTY}_parcel_pts.geojson.tmp > /tmp/${COUNTY}_parcel_pts.geojson
 
-echo "LAT,LNG,STR,DISTRICT,REGION" > ${COUNTY}_out.csv
+echo "LNG,LAT,STR,DISTRICT,REGION" > ${COUNTY}_out.csv
 PROG_TOT=$(wc -l /tmp/${COUNTY}_parcel_pts.geojson | grep -Po '\d+')
 
 jq -r -c '.features | .[] | .geometry | .coordinates' /tmp/${COUNTY}_parcel_pts.geojson > /tmp/${COUNTY}_coords
