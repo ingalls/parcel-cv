@@ -81,5 +81,5 @@ jq -r -c '.features | .[] | .geometry | .coordinates' /tmp/${COUNTY}_parcel_pts.
 rm /tmp/${COUNTY}_parcel_pts.geojson
 
 echo "LNG,LAT,STR,DISTRICT,REGION" > ${COUNTY}_out.csv
-cat /tmp/${COUNTY}_coords | parallel --gnu "$(dirname $0)/util/getAddress.sh \"{}\" \"{#}\" \"$PROG_TOT\" \"$COUNTY\""
+cat /tmp/${COUNTY}_coords | parallel --gnu "./util/getAddress.sh \"{}\" \"{#}\" \"$PROG_TOT\" \"$COUNTY\""
 rm /tmp/${COUNTY}_coords

@@ -8,13 +8,14 @@ function getLatLng() {
     curl --silent "http://qpublic9.qpublic.net/qp_mobile/php/getParcel_mm.php?longitude=$2&latitude=$1"
 }
 
-ADDR=$(getLatLng $(echo $1 | jq '.[1]') $(echo $1 | jq '.[0]'))
+COORD=$(echo $1 | sed 's/\\//g')
+ADDR=$(getLatLng $(echo $COORD | jq '.[1]') $(echo $COORD | jq '.[0]'))
 
 STR=$(echo $ADDR | jq -r -c '.properties | .["Physical Address"]')
 REG=$(echo $ADDR | jq -r -c '.properties | .md | .state ')
 DIS=$(echo $ADDR | jq -r -c '.properties | .md | .county')
 
-if [[ ! -z $1 ]] || [[ ! -z $STR ]]; then
-    echo "$(echo $1 | jq '.[0]'),$(echo $1 | jq '.[1]'),\"$STR\",\"$DIS\",\"$REG\"" >> ${4}_out.csv
+if [[ ! -z $COORD ]] || [[ ! -z $STR ]]; then
+    echo "$(echo $COORD | jq '.[0]'),$(echo $COORD | jq '.[1]'),\"$STR\",\"$DIS\",\"$REG\"" >> ${4}_out.csv
 fi
 echo "$2/$3"
