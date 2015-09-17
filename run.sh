@@ -75,11 +75,11 @@ echo "ok - poly => pt"
 ./node_modules/turf-cli/turf-point-on-surface.js /tmp/${COUNTY}_parcel_pts.geojson.tmp > /tmp/${COUNTY}_parcel_pts.geojson
 rm /tmp/${COUNTY}_parcel_pts.geojson.tmp
 
-PROG_TOT=$(wc -l /tmp/${COUNTY}_parcel_pts.geojson | grep -Po '\d+')
 
 jq -r -c '.features | .[] | .geometry | .coordinates' /tmp/${COUNTY}_parcel_pts.geojson > /tmp/${COUNTY}_coords
 rm /tmp/${COUNTY}_parcel_pts.geojson
 
+PROG_TOT=$(wc -l /tmp/${COUNTY}_parcel_pts.geojson | grep -Po '\d+')
 echo "LNG,LAT,STR,DISTRICT,REGION" > ${COUNTY}_out.csv
-cat /tmp/${COUNTY}_coords | parallel --gnu "./util/getAddress.sh \"{}\" \"{#}\" \"$PROG_TOT\" \"$COUNTY\""
+cat /tmp/${COUNTY}_coords | parallel -j1 --gnu "./util/getAddress.sh \"{}\" \"{#}\" \"$PROG_TOT\" \"$COUNTY\""
 rm /tmp/${COUNTY}_coords
