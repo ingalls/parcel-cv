@@ -3,8 +3,8 @@
 # == Avaliable Counties in Georgia =======================
 # Seminole ✓    Clinch     ✓    Glynn    ✓    Cook     - 
 # Thomas   ✓    Ware       ✓    Brantley ✓    Colquitt -
-# Brooks   ✓    Pierce     ✓    Atkinson ✓    Mitchell
-# Lowndes  ✓    Charlton   ✓    Lanier   ✓    Miller 
+# Brooks   ✓    Pierce     ✓    Atkinson ✓    Mitchell -
+# Lowndes  ✓    Charlton   ✓    Lanier   ✓    Miller   -
 # Echols   ✓    Camden     -    Berrien  -    Early  
 # Clay          Dougherty       Tift          Irwin
 # Calhoun       Worth           Turner        Coffee
