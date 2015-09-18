@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
-# == Avaliable Counties in Georgia =====================
-# Seminole ✓      Clinch -      Glynn           Cook   
-# Thomas   ✓      Ware   -      Brantley        Colquitt
-# Brooks   ✓      Pierce ✓      Atkinson        Mitchell
-# Lowndes  -      Charlton      Lanier          Miller 
-# Echols   -      Camden        Berrien         Early  
-# == Not Avaliable =====================================
+# == Avaliable Counties in Georgia =======================
+# Seminole ✓    Clinch   ✓      Glynn    ✓      Cook     - 
+# Thomas   ✓    Ware     ✓      Brantley ✓      Colquitt -
+# Brooks   ✓    Pierce   ✓      Atkinson ✓      Mitchell
+# Lowndes  ✓    Charlton ✓      Lanier   ✓      Miller 
+# Echols   ✓    Camden   -      Berrien  -      Early  
+# == Not Avaliable =======================================
 # Decatur
 # Grady
 # Baker
@@ -77,9 +77,9 @@ rm /tmp/${COUNTY}_parcel_pts.geojson.tmp
 
 
 jq -r -c '.features | .[] | .geometry | .coordinates' /tmp/${COUNTY}_parcel_pts.geojson > /tmp/${COUNTY}_coords
+PROG_TOT=$(wc -l /tmp/${COUNTY}_parcel_pts.geojson | grep -Po '\d+')
 rm /tmp/${COUNTY}_parcel_pts.geojson
 
-PROG_TOT=$(wc -l /tmp/${COUNTY}_parcel_pts.geojson | grep -Po '\d+')
 echo "LNG,LAT,STR,DISTRICT,REGION" > ${COUNTY}_out.csv
 cat /tmp/${COUNTY}_coords | parallel -j1 --gnu "./util/getAddress.sh \"{}\" \"{#}\" \"$PROG_TOT\" \"$COUNTY\""
 rm /tmp/${COUNTY}_coords

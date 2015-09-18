@@ -15,7 +15,7 @@ STR=$(echo $ADDR | jq -r -c '.properties | .["Physical Address"]')
 REG=$(echo $ADDR | jq -r -c '.properties | .md | .state ')
 DIS=$(echo $ADDR | jq -r -c '.properties | .md | .county')
 
-if [[ ! -z $COORD ]] || [[ ! -z $STR ]]; then
+if [[ ! -z $COORD ]] && [[ ! -z $STR ]]; then
     echo "$(echo $COORD | jq '.[0]'),$(echo $COORD | jq '.[1]'),\"$STR\",\"$DIS\",\"$REG\"" >> ${4}_out.csv
 fi
 echo "$2/$3"
