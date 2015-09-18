@@ -1,11 +1,14 @@
 #!/usr/bin/env bash
 
 # == Avaliable Counties in Georgia =======================
-# Seminole ✓    Clinch   ✓      Glynn    ✓      Cook     - 
-# Thomas   ✓    Ware     ✓      Brantley ✓      Colquitt -
-# Brooks   ✓    Pierce   ✓      Atkinson ✓      Mitchell
-# Lowndes  ✓    Charlton ✓      Lanier   ✓      Miller 
-# Echols   ✓    Camden   -      Berrien  -      Early  
+# Seminole ✓    Clinch     ✓    Glynn    ✓    Cook     - 
+# Thomas   ✓    Ware       ✓    Brantley ✓    Colquitt -
+# Brooks   ✓    Pierce     ✓    Atkinson ✓    Mitchell
+# Lowndes  ✓    Charlton   ✓    Lanier   ✓    Miller 
+# Echols   ✓    Camden     -    Berrien  -    Early  
+# Clay          Dougherty       Tift          Irwin
+# Calhoun       Worth           Turner        Coffee
+# Ben Hill      Telfair         Lee           Randolph
 # == Not Avaliable =======================================
 # Decatur
 # Grady
