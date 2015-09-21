@@ -9,8 +9,8 @@
 # Clay       -    Dougherty  ✓    Tift     ✓    Irwin    ✓
 # Calhoun    ✓    Worth      -    Turner   ✓    Coffee   ✓
 # Ben Hill        Telfair    -    Lee      ✓    Randolph ✓
-# Mcintosh        Wayne      -    Appling  -    Bacon    -
-# Jeff Davis      Telfair    -    Wilcox   -    Dodge    -
+# Mcintosh        Wayne      -    Appling  -    Bacon    ✓
+# Jeff Davis      Telfair    -    Wilcox   ✓    Dodge    -
 # == Not Avaliable =======================================
 # Decatur
 # Grady
