@@ -1,16 +1,19 @@
 #!/usr/bin/env bash
 
-# == Avaliable Counties in Georgia =======================
-# Seminole   ✓    Clinch     ✓    Glynn    ✓    Cook     ✓ 
-# Thomas     ✓    Ware       ✓    Brantley ✓    Colquitt ✓
-# Brooks     ✓    Pierce     ✓    Atkinson ✓    Mitchell ✓
-# Lowndes    ✓    Charlton   ✓    Lanier   ✓    Miller   ✓
-# Echols     ✓    Camden     ✓    Berrien  ✓    Early    ✓
-# Clay       -    Dougherty  ✓    Tift     ✓    Irwin    ✓
-# Calhoun    ✓    Worth      -    Turner   ✓    Coffee   ✓
-# Ben Hill        Telfair    -    Lee      ✓    Randolph ✓
-# Mcintosh        Wayne      -    Appling  -    Bacon    ✓
-# Jeff Davis      Telfair    -    Wilcox   ✓    Dodge    -
+# == Avaliable Counties in Georgia ========================
+# Seminole   ✓    Clinch     ✓    Glynn    ✓    Cook      ✓ 
+# Thomas     ✓    Ware       ✓    Brantley ✓    Colquitt  ✓
+# Brooks     ✓    Pierce     ✓    Atkinson ✓    Mitchell  ✓
+# Lowndes    ✓    Charlton   ✓    Lanier   ✓    Miller    ✓
+# Echols     ✓    Camden     ✓    Berrien  ✓    Early     ✓
+# Clay       -    Dougherty  ✓    Tift     ✓    Irwin     ✓
+# Calhoun    ✓    Worth      -    Turner   ✓    Coffee    ✓
+# Ben Hill        Telfair    -    Lee      ✓    Randolph  ✓
+# McIntosh   -    Wayne      -    Appling  -    Bacon     ✓
+# Jeff Davis      Telfair    -    Wilcox   ✓    Dodge     -
+# Jefferson       Washington      Burke         Wilkinson -
+# Twiggs          Jones           Laurens       Wheeler   -
+# Toombs          Montgomery      Tattnall      Long      -
 # == Not Avaliable =======================================
 # Decatur
 # Grady
