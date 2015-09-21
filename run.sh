@@ -1,19 +1,21 @@
 #!/usr/bin/env bash
 
 # == Avaliable Counties in Georgia =======================
-# Seminole ✓    Clinch     ✓    Glynn    ✓    Cook     ✓ 
-# Thomas   ✓    Ware       ✓    Brantley ✓    Colquitt ✓
-# Brooks   ✓    Pierce     ✓    Atkinson ✓    Mitchell ✓
-# Lowndes  ✓    Charlton   ✓    Lanier   ✓    Miller   ✓
-# Echols   ✓    Camden     ✓    Berrien  ✓    Early    ✓
-# Clay     -    Dougherty  -    Tift     ✓    Irwin    ✓
-# Calhoun  -    Worth      -    Turner   ✓    Coffee   ✓
-# Ben Hill      Telfair    -    Lee      -    Randolph ✓
+# Seminole   ✓    Clinch     ✓    Glynn    ✓    Cook     ✓ 
+# Thomas     ✓    Ware       ✓    Brantley ✓    Colquitt ✓
+# Brooks     ✓    Pierce     ✓    Atkinson ✓    Mitchell ✓
+# Lowndes    ✓    Charlton   ✓    Lanier   ✓    Miller   ✓
+# Echols     ✓    Camden     ✓    Berrien  ✓    Early    ✓
+# Clay       -    Dougherty  -    Tift     ✓    Irwin    ✓
+# Calhoun    -    Worth      -    Turner   ✓    Coffee   ✓
+# Ben Hill        Telfair    -    Lee      -    Randolph ✓
+# Mcintosh        Wayne      -    Appling  -    Bacon    -
+# Jeff Davis      Telfair    -    Wilcox   -    Dodge    -
 # == Not Avaliable =======================================
 # Decatur
 # Grady
 # Baker
-# ======================================================
+# ========================================================
 
 if [ -z $1 ]; then
     echo "./run <County>"
