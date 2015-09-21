@@ -7,11 +7,11 @@
 # Lowndes    ✓    Charlton   ✓    Lanier   ✓    Miller    ✓
 # Echols     ✓    Camden     ✓    Berrien  ✓    Early     ✓
 # Clay       -    Dougherty  ✓    Tift     ✓    Irwin     ✓
-# Calhoun    ✓    Worth      -    Turner   ✓    Coffee    ✓
+# Calhoun    ✓    Worth      ✓    Turner   ✓    Coffee    ✓
 # Ben Hill        Telfair    -    Lee      ✓    Randolph  ✓
 # McIntosh   -    Wayne      -    Appling  -    Bacon     ✓
 # Jeff Davis      Telfair    -    Wilcox   ✓    Dodge     -
-# Jefferson  -    Washington      Burke         Wilkinson -
+# Jefferson  -    Washington -    Burke         Wilkinson -
 # Twiggs     -    Jones           Laurens       Wheeler   -
 # Toombs     -    Montgomery      Tattnall      Long      -
 # == Not Avaliable =======================================
