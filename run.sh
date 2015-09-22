@@ -12,8 +12,8 @@
 # McIntosh   ✓    Wayne      -    Appling  ✓    Bacon     ✓
 # Jeff Davis                      Wilcox   ✓    Dodge     -
 # Jefferson  ✓                    Burke    -    Wilkinson ✓
-# Twiggs     ✓    Jones           Laurens       Wheeler   ✓
-# Toombs     ✓    Montgomery      Tattnall      Long      ✓
+# Twiggs     ✓    Jones      -    Laurens  -    Wheeler   ✓
+# Toombs     ✓    Montgomery -    Tattnall -    Long      ✓
 # == Not Avaliable =======================================
 # Decatur         Washington
 # Grady
