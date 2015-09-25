@@ -6,10 +6,10 @@
 # Brooks     ✓    Pierce     ✓    Atkinson ✓    Mitchell  ✓
 # Lowndes    ✓    Charlton   ✓    Lanier   ✓    Miller    ✓
 # Echols     ✓    Camden     ✓    Berrien  ✓    Early     ✓
-# Clay       -    Dougherty  ✓    Tift     ✓    Irwin     ✓
+# Clay            Dougherty  ✓    Tift     ✓    Irwin     ✓
 # Calhoun    ✓    Worth      ✓    Turner   ✓    Coffee    ✓
 # Ben Hill        Telfair    ✓    Lee      ✓    Randolph  ✓
-# McIntosh   ✓    Wayne      -    Appling  ✓    Bacon     ✓
+# McIntosh   ✓    Wayne           Appling  ✓    Bacon     ✓
 # Jeff Davis      Effingham       Wilcox   ✓    Dodge     -
 # Jefferson  ✓    Bryan           Burke    ✓    Wilkinson ✓
 # Twiggs     ✓    Jones      ✓    Laurens  ✓    Wheeler   ✓
@@ -18,7 +18,7 @@
 # Johnson    ✓    Bleckley   ✓    Dooly    ✓    Crisp
 # Houston    ✓    Macon      ✓    Schley   ✓    Marion
 # Quitman    ✓    Stewart    ✓    Harris   ✓    Chattahoochee
-# Troup      ✓    Heard      ✓    Carroll  ✓    Bartow
+# Troup      ✓    Heard      ✓    Carroll  ✓    Bartow    -
 # == Not Avaliable ========================================
 # Decatur         Washington
 # Grady
