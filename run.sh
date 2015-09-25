@@ -16,9 +16,9 @@
 # Toombs     ✓    Montgomery ✓    Tattnall ✓    Long      ✓
 # Evans      ✓    Candler    ✓    Emanuel  -    Treutlen
 # Johnson    ✓    Bleckley   ✓    Dooly    ✓    Crisp
-# Houston    -    Macon      ✓    Schley   -    Marion
-# Quitman    ✓    Stewart    ✓    Harris   -    Chattahoochee
-# Troup      -    Heard      ✓    Carroll  -    Bartow
+# Houston    ✓    Macon      ✓    Schley   ✓    Marion
+# Quitman    ✓    Stewart    ✓    Harris   ✓    Chattahoochee
+# Troup      ✓    Heard      ✓    Carroll  ✓    Bartow
 # == Not Avaliable ========================================
 # Decatur         Washington
 # Grady
